@@ -802,9 +802,7 @@ export class BaseCoverageProvider {
         const root = project.config.root
 
         if (
-          // On Windows root doesn't start with "/" while filenames do
-          !filename.startsWith(root) &&
-          !filename.startsWith(`/${root}`) &&
+          !isInsideRoot(filename, root) &&
           // If it's file outside project (allowExternal), transform it with the root project
           project !== rootProject
         ) {
@@ -1066,3 +1064,19 @@ function isProcessAlive(pid: number): boolean {
     return (error as NodeJS.ErrnoException).code !== 'ESRCH'
   }
 }
+
+/**
+ * Whether `filename` is `root` or inside it. The root has to end at a path
+ * separator, so a project at `packages/app` does not claim `packages/app-utils`.
+ * On Windows the root doesn't start with "/" while file names do.
+ */
+function isInsideRoot(filename: string, root: string): boolean {
+  const normalizedRoot = slash(root)
+  for (const candidate of [normalizedRoot, `/${normalizedRoot}`]) {
+    if (filename === candidate || filename.startsWith(`${candidate}/`)) {
+      return true
+    }
+  }
+  return false
+}
+
