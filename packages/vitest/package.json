@@ -190,7 +190,7 @@
     "@bomb.sh/tab": "^0.0.22",
     "@edge-runtime/vm": "^5.0.0",
     "@jridgewell/trace-mapping": "catalog:",
-    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/api": "^1.10.0",
     "@sinonjs/fake-timers": "15.4.0",
     "@types/jsdom": "^30.0.0",
     "@types/node": "^24.19.2",
